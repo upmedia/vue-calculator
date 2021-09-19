@@ -4,19 +4,17 @@
       <button
         @click="showHistory"
         class="h-8 w-8 rounded-full flex items-center justify-center bg-purple-800 text-white"
+        :class="{ 'opacity-50 cursor-default': historyData.length == 0 }"
+        :diabled="historyData.length == 0"
       >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+        <clock-icon class="h-5 w-5" />
       </button>
 
       <button
         @click="deleteValue"
         class="h-8 w-8 rounded-full flex items-center justify-center bg-purple-800 text-white"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z" />
-        </svg>
+        <back-space-icon class="h-5 w-5" />
       </button>
     </div>
 
@@ -79,7 +77,12 @@
 
 <script>
 import { ref, onMounted } from 'vue'
+import ClockIcon from '@/components/icons/ClockIcon.vue'
+import BackSpaceIcon from '@/components/icons/BackSpaceIcon.vue'
+
 export default {
+  components: { ClockIcon, BackSpaceIcon },
+
   setup() {
     let historyData = []
     const operations = ["+", "-", "*", "/", "%", "()"]
@@ -89,6 +92,8 @@ export default {
     const selectedOperation = ref('')
     const total = ref('')
     const isHistory = ref(false)
+
+
 
     const pressed = (value) => {
       if (value === "=" || value === "Enter") {
@@ -186,6 +191,10 @@ export default {
     }
 
     const showHistory = () => {
+        if (historyData.length == 0) {
+          return
+        }
+
         isHistory.value = !isHistory.value;
     }
 
@@ -195,7 +204,19 @@ export default {
 
     onMounted(() => window.addEventListener('keydown', handleKeydown));
 
-    return { currentNum, pressed, selectedOperation, prevNum, total, isHistory, showHistory, negateValue, deleteValue,  historyData }
+    return {
+      currentNum,
+      pressed,
+      selectedOperation,
+      prevNum,
+      total,
+      isHistory,
+      showHistory,
+      negateValue,
+      deleteValue,
+      historyData,
+      ClockIcon,
+    }
   }
 
 }
