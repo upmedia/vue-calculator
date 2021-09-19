@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .main-button {
+        @apply bg-gray-200 py-3 rounded-3xl flex justify-center items-center text-gray-500 text-3xl hover:bg-gray-300 outline-none first:bg-red-500 hover:first:bg-red-600 first:text-white last:bg-green-500 hover:last:bg-green-600 last:text-white
+    }
+}
+
